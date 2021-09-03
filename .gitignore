@@ -36,6 +36,7 @@ MANIFEST
 # Installer logs
 pip-log.txt
 pip-delete-this-directory.txt
+./server-config.json
 
 # Unit test / coverage reports
 htmlcov/
@@ -127,5 +128,3 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
-
-server-config.json
