@@ -1,0 +1,24 @@
+{
+    "endpoints": {
+        "ID": {
+            "endpoint": "endpoint-link",
+            "mail-list": [],
+            "status": "200",
+            "running": "Yes",
+            "last-check-timestamp": " ",
+            "response": "Response latest",
+            "routine": "24 Hrs",
+            "reports": [
+                {
+                    "timestamp": "",
+                    "status": "",
+                    "running": "Yes",
+                    "response": "",
+                    "response-time": "duration",
+                    "downtime": "",
+                    "report-sent": "if downtime detected, Y if reported N if not"
+                }
+            ]
+        }
+    }
+}
