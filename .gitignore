@@ -36,7 +36,10 @@ MANIFEST
 # Installer logs
 pip-log.txt
 pip-delete-this-directory.txt
+
+# ENV Files
 server-config.json
+list.json
 
 # Unit test / coverage reports
 htmlcov/

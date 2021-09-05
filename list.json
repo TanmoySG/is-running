@@ -1,22 +1,86 @@
 {
+    "user": {
+        "name": "Tanmoy Sen Gupta",
+        "token": "8d77acb8913dafe8fcca6a015a4e6212a8de28ba",
+        "halg": "SHA1"
+    },
     "endpoints": {
-        "ID": {
-            "endpoint": "endpoint-link",
-            "mail-list": [],
+        "https://tanmoysg.com/": {
+            "endpoint": "https://tanmoysg.com/",
+            "endpoint-name": "Personal Website",
+            "description": "Just Test Shit",
+            "_id": "8Tbdsz8xJcvnwE7GkuQeAc",
+            "mail-list": [
+                "mail@tanmoysg.com",
+                "tanmoysps@gmail.com"
+            ],
             "status": "200",
-            "running": "Yes",
-            "last-check-timestamp": " ",
-            "response": "Response latest",
+            "running": "Running",
+            "last-check-timestamp": "2021-09-05 17:59:16.806754",
+            "response": "Success",
             "routine": "24 Hrs",
             "reports": [
                 {
-                    "timestamp": "",
-                    "status": "",
-                    "running": "Yes",
-                    "response": "",
-                    "response-time": "duration",
-                    "downtime": "",
-                    "report-sent": "if downtime detected, Y if reported N if not"
+                    "timestamp": "2021-09-05 17:59:16.806754",
+                    "status": "200",
+                    "running": "Running",
+                    "response": "Success",
+                    "response-time": 0.209974,
+                    "redirects": null
+                }
+            ]
+        },
+        "https://wdb.tanmoysg.com/": {
+            "endpoint": "https://wdb.tanmoysg.com/",
+            "endpoint-name": "WDB",
+            "description": "Just Test Shit",
+            "_id": "BFxUdvwqKaWbZLim5ZtqLN",
+            "mail-list": [
+                "mail@tanmoysg.com",
+                "tanmoysps@gmail.com",
+                "wdb@tanmoysg.com"
+            ],
+            "status": "200",
+            "running": "Running",
+            "last-check-timestamp": "2021-09-05 18:10:49.249957",
+            "response": "Success",
+            "routine": "24 Hrs",
+            "reports": [
+                {
+                    "timestamp": "2021-09-05 18:10:49.249957",
+                    "status": "200",
+                    "running": "Running",
+                    "response": "Success",
+                    "response-time": 0.055791,
+                    "redirects": null
+                }
+            ]
+        },
+        "https://shorturl.at/jqtC3": {
+            "endpoint": "https://shorturl.at/jqtC3",
+            "endpoint-name": "WDB",
+            "description": "Just Test Shit",
+            "_id": "Y7CjJ8fbReZ6bKsh3CEzay",
+            "mail-list": [
+                "mail@tanmoysg.com",
+                "tanmoysps@gmail.com"
+            ],
+            "status": "200",
+            "running": "Running",
+            "last-check-timestamp": "2021-09-05 19:05:29.301538",
+            "response": "Success/Redirected",
+            "routine": "24 Hrs",
+            "reports": [
+                {
+                    "timestamp": "2021-09-05 19:05:29.301538",
+                    "status": "200",
+                    "running": "Running",
+                    "response": "Success/Redirected",
+                    "response-time": 0.24686,
+                    "redirects": [
+                        "https://shorturl.at/jqtC3",
+                        "https://www.shorturl.at/jqtC3"
+                    ]
                 }
             ]
         }
