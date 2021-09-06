@@ -1,15 +1,30 @@
- <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <div style="font-family: 'Work Sans', sans-serif;overflow:auto;line-height:1.5">
+ <link rel="preconnect" href="https://fonts.googleapis.com"/>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<script src="https://kit.fontawesome.com/ff3df25b6d.js" crossorigin="anonymous"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+
+    <div style="font-family: 'Work Sans', sans-serif;overflow:auto;line-height:1.5;  font-size: 1.25em ">
       <div style="margin:50px auto;width:70%;padding:20px 0">
-        <div style="border-bottom:1px solid #eee">
-          <a href="" style="font-size:1.2rem;color: #00466a;text-decoration:none;font-weight:400">isRunning</a>
+        <div style="">
+          <!-- <span href="" style="font-size:1.2rem;color: #00466a;text-decoration:none;font-weight:400">isRunning</span> -->
+          <span style="background-color: #1A8FE6; padding:7.5px 10px; border-radius: 7.5px; color: white;"><i class="fas fa-rocket"></i> <b>isRunning</b> | Onboarding</span>
         </div>
-        <p style="font-size:1.2em">Hi,</p>
-        <p>You've been added to the critical alert mailing list for %url%</p>
-        <p>You'll recieve the alert if and when <b style="color: blue">%url%</b> is down.</p>
-        <p style="font-size:0.9em;">Regards,<br />isRunning Team</p>
-        <hr style="border:none;border-top:1px solid #eee" />
+        <p style="font-size:1em">Hi %reciever%,</p>
+        <p style="font-weight: 400"> You've been added to the critical alert mailing list for </p>
+        <div style="border: solid 2px #1A8FE6; padding: 5px ; background-color: rgb(26,143,230, 0.05); text-align: center;">
+          
+          <p style="color: #1A8FE6; font-weight: 600; font-size: 1.5em ">
+              %url%
+            </p>
+          <!--
+          <p>Status Code: <b style="color: #1A8FE6">%stscde%</b></p>
+          <p>Endpoint/Service: <b style="color: #1A8FE6">%url%</b></p>
+          <p>Status Code: <b style="color: #1A8FE6">%stscde%</b></p> -->
+        </div>
+        <p>You'll recieve the alert if and when <b style="color: #1A8FE6">%url%</b> is down.</p>
+        <p style="font-size:1em;">Regards,<br />isRunning Team</p>
+        <hr style="border:none;border-top: 1px solid #eee" />
+                <p style="font-size:0.7em;">Note : You're recieveing this mail as are added to the critical alerts mailing list.</p>
       </div>
     </div>
+

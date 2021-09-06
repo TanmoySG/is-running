@@ -40,10 +40,10 @@ def alert(recipient, mail_template, content):
     message["Subject"] = content["subject"]
     message["From"] = credentials.sender
     message["To"] = recipient
-    template = open(mail_template).read().replace(
-        content["replacement_token"], content["replacement_string"])
-    '''for token in content["replacement_config"].keys():
-        template.replace(token, content["replacement_config"][token])'''
+    template = open(mail_template).read()
+    # .replace(content["replacement_token"], content["replacement_string"])
+    for token in content["replacement_config"].keys():
+        template = template.replace(str(token), str(content["replacement_config"][token]))
     html = MIMEText(template, "html")
     message.attach(html)
     context = ssl.create_default_context()
@@ -53,7 +53,7 @@ def alert(recipient, mail_template, content):
     return "Success"
 
 
-def check_endpoint(endpoint):
+def check_endpoint(endpoint, recipients=None):
     request_val = requests.get(endpoint, allow_redirects=True)
     response = {"status": "", "duration": "", "response": "", "redirects": []}
     if 100 <= int(request_val.status_code) <= 399:
@@ -71,15 +71,46 @@ def check_endpoint(endpoint):
     elif 400 <= int(request_val.status_code) <= 499:
         response["duration"] = request_val.elapsed.total_seconds()
         response["status"] = str(request_val.status_code)
-        response["response"] = "Bad Request",
+        response["response"] = "Bad Request"
         response["redirects"] = response["redirects"].append("None")
-        #alert(endpoint, response)
+        
+        if recipients != None:
+            for recipient in recipients:
+                content = {
+                    "subject": "Alert | "+endpoint+" is Down.",
+                    "replacement_config": {
+                        "%url%": endpoint,
+                        "%stscde%": str(response["status"]),
+                        "%stsrsp%": str(response["response"]),
+                        "%timestamp%": str(datetime.now()),
+                    }
+                }
+                alert(recipient=recipient,mail_template="./mail_templates/critical_alert_mail.txt", content=content)
+            return response
+        else:
+            return response
     elif 500 <= int(request_val.status_code) <= 599:
         response["duration"] = request_val.elapsed.total_seconds()
         response["status"] = str(request_val.status_code)
         response["response"] = "Server Issue"
         response["redirects"] = response["redirects"].append("None")
-        #alert(endpoint, response)
+
+        if recipients != None:
+            for recipient in recipients:
+                content = {
+                    "subject": "Alert | "+endpoint+" is Down.",
+                    "replacement_config": {
+                        "%url%": endpoint,
+                        "%stscde%": str(response["status"]),
+                        "%stsrsp%": str(response["response"]),
+                        "%timestamp%": str(datetime.now()),
+                    }
+                }
+                alert(recipient=recipient,mail_template="./mail_templates/critical_alert_mail.txt", content=content)
+            return response
+        else:
+            return response
+
     return response
 
 
@@ -117,10 +148,10 @@ def add_endpoint(mail):
                     "running": "",
                     "last-check-timestamp": "",
                     "response": "",
-                    "routine": "24 Hrs",
+                    "routine": new_ep_config['routine'],
                     "reports": []
                 }
-                check_result = check_endpoint(new_endpoint)
+                check_result = check_endpoint(endpoint = new_endpoint, recipients = new_ep_config['recipients'])
                 report = generate_report(check_result)
                 endpoint_config["status"] = report["status"]
                 endpoint_config["running"] = report["running"]
@@ -134,8 +165,10 @@ def add_endpoint(mail):
                 for mail_address in new_ep_config['recipients']:
                     content = {
                         "subject": "Added to Critical Alerts Group",
-                        "replacement_token": "%url%",
-                        "replacement_string": new_endpoint
+                        "replacement_config": {
+                            "%url%": new_endpoint,
+                            "%reciever%": mail_address
+                        }
                     }
                     alert(recipient=mail_address,
                           mail_template="./mail_templates/alert_onboarding_mail.txt", content=content)
@@ -153,9 +186,9 @@ def index():
     return "<h1>It Fucking Works!</h1>"
 
 
-'''def check(endpoint):
-    response = requests.get(endpoint)
-    return str(response.status_code)'''
+@app.route("/<mail>/routine", methods=["GET", "POST"])
+def routine_check(mail):
+    pass
 
 
 @app.route("/check-one", methods=["GET"])

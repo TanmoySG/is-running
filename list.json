@@ -18,7 +18,7 @@
             "running": "Running",
             "last-check-timestamp": "2021-09-05 17:59:16.806754",
             "response": "Success",
-            "routine": "24 Hrs",
+            "routine": "24",
             "reports": [
                 {
                     "timestamp": "2021-09-05 17:59:16.806754",
@@ -44,7 +44,7 @@
             "running": "Running",
             "last-check-timestamp": "2021-09-05 18:10:49.249957",
             "response": "Success",
-            "routine": "24 Hrs",
+            "routine": "24",
             "reports": [
                 {
                     "timestamp": "2021-09-05 18:10:49.249957",
@@ -60,27 +60,51 @@
             "endpoint": "https://shorturl.at/jqtC3",
             "endpoint-name": "WDB",
             "description": "Just Test Shit",
-            "_id": "Y7CjJ8fbReZ6bKsh3CEzay",
+            "_id": "SALTfT4CkXiD6RMiiAosbP",
             "mail-list": [
                 "mail@tanmoysg.com",
                 "tanmoysps@gmail.com"
             ],
             "status": "200",
             "running": "Running",
-            "last-check-timestamp": "2021-09-05 19:05:29.301538",
+            "last-check-timestamp": "2021-09-06 18:08:04.649527",
             "response": "Success/Redirected",
-            "routine": "24 Hrs",
+            "routine": "24",
             "reports": [
                 {
-                    "timestamp": "2021-09-05 19:05:29.301538",
+                    "timestamp": "2021-09-06 18:08:04.649527",
                     "status": "200",
                     "running": "Running",
                     "response": "Success/Redirected",
-                    "response-time": 0.24686,
+                    "response-time": 0.251988,
                     "redirects": [
                         "https://shorturl.at/jqtC3",
                         "https://www.shorturl.at/jqtC3"
                     ]
+                }
+            ]
+        },
+        "https://tanmoysg.com/tow/": {
+            "endpoint": "https://tanmoysg.com/tow/",
+            "endpoint-name": "TSG on Web",
+            "description": "Just Test Shit",
+            "_id": "ELzMn2enrCDhYEHvohyY6k",
+            "mail-list": [
+                "tanmoysps@gmail.com"
+            ],
+            "status": "404",
+            "running": "Downtime",
+            "last-check-timestamp": "2021-09-06 19:52:35.023112",
+            "response": "Bad Request",
+            "routine": "6",
+            "reports": [
+                {
+                    "timestamp": "2021-09-06 19:52:35.023112",
+                    "status": "404",
+                    "running": "Downtime",
+                    "response": "Bad Request",
+                    "response-time": 0.307292,
+                    "redirects": null
                 }
             ]
         }

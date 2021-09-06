@@ -1,15 +1,26 @@
- <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+ <link rel="preconnect" href="https://fonts.googleapis.com"/>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<script src="https://kit.fontawesome.com/ff3df25b6d.js" crossorigin="anonymous"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+
     <div style="font-family: 'Work Sans', sans-serif;overflow:auto;line-height:1.5">
       <div style="margin:50px auto;width:70%;padding:20px 0">
-        <div style="border-bottom:1px solid #eee">
-          <a href="" style="font-size:1.2rem;color: #00466a;text-decoration:none;font-weight:400">wunderDB
+        <div style="">
+          <!-- <span href="" style="font-size:1.2rem;color: #00466a;text-decoration:none;font-weight:400">isRunning</span> -->
+          <span style="background-color: #e61a29; padding:7.5px 10px; border-radius: 7.5px; color: white"><i class="fas fa-exclamation-triangle"></i> <b>isRunning</b> | Down Alert</span>
         </div>
-        <p style="font-size:1.2em">Hi,</p>
-        <p>Thank you for choosing wunderDB. Use the following OTP to complete your Sign Up procedures. OTP is valid for 5 minutes</p>
-        <h2 style="background: #00466a;margin: 0 auto;width: max-content;padding: 0 10px;color: #fff;border-radius: 4px;"> %otp% </h2>
-        <p style="font-size:0.9em;">Regards,<br />wunderDB Auth Team</p>
-        <hr style="border:none;border-top:1px solid #eee" />
+        <p style="font-size:1em">Hi,</p>
+        <p style="font-weight: 400">The service/endpoint <b style="color: #e61a29">%url%</b> is down. Find details of the activity below. </p>
+        <div style="border: solid 2px #e61a29; padding: 5px ; background-color: rgb(230,26,41, 0.05) ">
+          <p>Endpoint/Service: <b style="color: #e61a29">%url%</b></p>
+          <p>Status Code: <b style="color: #e61a29">%stscde%</b></p>
+          <p>Response: <b style="color: #e61a29">%stsrsp%</b></p>
+          <p>Timestamp: <b style="color: #e61a29">%timestamp%</b></p>
+        </div>
+        <p>We recommend you to take suitable action on your side to avoid service block. If the service block is a part of routine maintenance please ignore the mail.</p>
+        <p style="font-size:1em;">Regards,<br />isRunning Team</p>
+        <hr style="border:none;border-top: 1px solid #eee" />
+                <p style="font-size:0.7em;">Note : You're recieveing this mail as are added to the critical alerts mailing list.</p>
       </div>
     </div>
+
