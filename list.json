@@ -1,5 +1,6 @@
 {
     "user": {
+        "email" : "mail@tanmoysg.com",
         "name": "Tanmoy Sen Gupta",
         "token": "8d77acb8913dafe8fcca6a015a4e6212a8de28ba",
         "halg": "SHA1"

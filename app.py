@@ -43,7 +43,8 @@ def alert(recipient, mail_template, content):
     template = open(mail_template).read()
     # .replace(content["replacement_token"], content["replacement_string"])
     for token in content["replacement_config"].keys():
-        template = template.replace(str(token), str(content["replacement_config"][token]))
+        template = template.replace(str(token), str(
+            content["replacement_config"][token]))
     html = MIMEText(template, "html")
     message.attach(html)
     context = ssl.create_default_context()
@@ -73,7 +74,7 @@ def check_endpoint(endpoint, recipients=None):
         response["status"] = str(request_val.status_code)
         response["response"] = "Bad Request"
         response["redirects"] = response["redirects"].append("None")
-        
+
         if recipients != None:
             for recipient in recipients:
                 content = {
@@ -85,7 +86,8 @@ def check_endpoint(endpoint, recipients=None):
                         "%timestamp%": str(datetime.now()),
                     }
                 }
-                alert(recipient=recipient,mail_template="./mail_templates/critical_alert_mail.txt", content=content)
+                alert(recipient=recipient,
+                      mail_template="./mail_templates/critical_alert_mail.txt", content=content)
             return response
         else:
             return response
@@ -106,7 +108,8 @@ def check_endpoint(endpoint, recipients=None):
                         "%timestamp%": str(datetime.now()),
                     }
                 }
-                alert(recipient=recipient,mail_template="./mail_templates/critical_alert_mail.txt", content=content)
+                alert(recipient=recipient,
+                      mail_template="./mail_templates/critical_alert_mail.txt", content=content)
             return response
         else:
             return response
@@ -151,7 +154,8 @@ def add_endpoint(mail):
                     "routine": new_ep_config['routine'],
                     "reports": []
                 }
-                check_result = check_endpoint(endpoint = new_endpoint, recipients = new_ep_config['recipients'])
+                check_result = check_endpoint(
+                    endpoint=new_endpoint, recipients=new_ep_config['recipients'])
                 report = generate_report(check_result)
                 endpoint_config["status"] = report["status"]
                 endpoint_config["running"] = report["running"]
@@ -186,9 +190,68 @@ def index():
     return "<h1>It Fucking Works!</h1>"
 
 
-@app.route("/<mail>/routine", methods=["GET", "POST"])
+@app.route("/<mail>/routine-check/", methods=["GET", "POST"])
 def routine_check(mail):
-    pass
+    routine_check_config = request.get_json(force=True)
+    current_hour = routine_check_config['current_hour']
+    password = routine_check_config['password']
+    complete_string = mail+"#"+password
+    with open('list.json') as f:
+        jfile = json.load(f)
+        user_cred = jfile['user']
+        endpoints = jfile['endpoints']
+        cred_hash = hashlib.sha1(complete_string.encode()).hexdigest()
+        if user_cred['token'] == cred_hash:
+            if current_hour in ["3", "9", "15", "21"]:
+                for endpoint in endpoints.keys():
+                    check_result = check_endpoint(
+                        endpoint=endpoint, recipients=endpoints[endpoint]['mail-list'])
+                    report = generate_report(check_result)
+                    endpoints[endpoint]["status"] = report["status"]
+                    endpoints[endpoint]["running"] = report["running"]
+                    endpoints[endpoint]["last-check-timestamp"] = report["timestamp"]
+                    endpoints[endpoint]["response"] = report["response"]
+                    if len(endpoints[endpoint]["reports"]) <= 10:
+                        endpoints[endpoint]["reports"].append(report)
+                    else:
+                        endpoints[endpoint]["reports"].pop(index=0)
+                        endpoints[endpoint]["reports"].append(report)
+                write_json(jfile, file)
+            else:
+                return "job_scheduled_later"
+        else:
+            return "check_format"
+
+
+@app.route("/<mail>/check-all/", methods=["GET", "POST"])
+def bulk_check(mail):
+    routine_check_config = request.get_json(force=True)
+    password = routine_check_config['password']
+    complete_string = mail+"#"+password
+    with open('list.json') as f:
+        jfile = json.load(f)
+        user_cred = jfile['user']
+        endpoints = jfile['endpoints']
+        cred_hash = hashlib.sha1(complete_string.encode()).hexdigest()
+        if user_cred['token'] == cred_hash:
+            for endpoint in endpoints.keys():
+                check_result = check_endpoint(
+                    endpoint=endpoint, recipients=endpoints[endpoint]['mail-list'])
+                report = generate_report(check_result)
+                endpoints[endpoint]["status"] = report["status"]
+                endpoints[endpoint]["running"] = report["running"]
+                endpoints[endpoint]["last-check-timestamp"] = report["timestamp"]
+                endpoints[endpoint]["response"] = report["response"]
+                if len(endpoints[endpoint]["reports"]) <= 10:
+                    endpoints[endpoint]["reports"].append(report)
+                else:
+                    endpoints[endpoint]["reports"].pop(0)
+                    endpoints[endpoint]["reports"].append(report)
+            write_json(jfile, file)
+            return "bulk_check_success"
+        else:
+            return "credential_error"
+
 
 
 @app.route("/check-one", methods=["GET"])
