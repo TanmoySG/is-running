@@ -153,7 +153,7 @@
             ],
             "status": "404",
             "running": "Downtime",
-            "last-check-timestamp": "2021-09-07 14:51:06.622127",
+            "last-check-timestamp": "2021-09-07 16:22:19.997707",
             "response": "Bad Request",
             "routine": "6",
             "reports": [
@@ -166,19 +166,11 @@
                     "redirects": null
                 },
                 {
-                    "timestamp": "2021-09-07 14:49:02.900620",
+                    "timestamp": "2021-09-07 16:22:19.997707",
                     "status": "404",
                     "running": "Downtime",
                     "response": "Bad Request",
-                    "response-time": 0.231889,
-                    "redirects": null
-                },
-                {
-                    "timestamp": "2021-09-07 14:51:06.622127",
-                    "status": "404",
-                    "running": "Downtime",
-                    "response": "Bad Request",
-                    "response-time": 0.296925,
+                    "response-time": 0.407911,
                     "redirects": null
                 }
             ]

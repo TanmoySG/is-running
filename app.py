@@ -193,7 +193,7 @@ def index():
 @app.route("/<mail>/routine-check/", methods=["GET", "POST"])
 def routine_check(mail):
     routine_check_config = request.get_json(force=True)
-    current_hour = routine_check_config['current_hour']
+    current_slots = routine_check_config['current_slots']
     password = routine_check_config['password']
     complete_string = mail+"#"+password
     with open('list.json') as f:
@@ -202,8 +202,8 @@ def routine_check(mail):
         endpoints = jfile['endpoints']
         cred_hash = hashlib.sha1(complete_string.encode()).hexdigest()
         if user_cred['token'] == cred_hash:
-            if current_hour in ["3", "9", "15", "21"]:
-                for endpoint in endpoints.keys():
+            for endpoint in endpoints.keys():
+                if endpoints[endpoint]['routine'] in current_slots:
                     check_result = check_endpoint(
                         endpoint=endpoint, recipients=endpoints[endpoint]['mail-list'])
                     report = generate_report(check_result)
@@ -216,9 +216,10 @@ def routine_check(mail):
                     else:
                         endpoints[endpoint]["reports"].pop(index=0)
                         endpoints[endpoint]["reports"].append(report)
-                write_json(jfile, file)
-            else:
-                return "job_scheduled_later"
+                else:
+                    pass
+            write_json(jfile, file)
+            return "routine_check_complete"
         else:
             return "check_format"
 
