@@ -1,6 +1,6 @@
 {
     "user": {
-        "email" : "mail@tanmoysg.com",
+        "email": "mail@tanmoysg.com",
         "name": "Tanmoy Sen Gupta",
         "token": "8d77acb8913dafe8fcca6a015a4e6212a8de28ba",
         "halg": "SHA1"
@@ -17,7 +17,7 @@
             ],
             "status": "200",
             "running": "Running",
-            "last-check-timestamp": "2021-09-05 17:59:16.806754",
+            "last-check-timestamp": "2021-09-07 14:51:03.550044",
             "response": "Success",
             "routine": "24",
             "reports": [
@@ -27,6 +27,22 @@
                     "running": "Running",
                     "response": "Success",
                     "response-time": 0.209974,
+                    "redirects": null
+                },
+                {
+                    "timestamp": "2021-09-07 14:48:53.696903",
+                    "status": "200",
+                    "running": "Running",
+                    "response": "Success",
+                    "response-time": 0.251183,
+                    "redirects": null
+                },
+                {
+                    "timestamp": "2021-09-07 14:51:03.550044",
+                    "status": "200",
+                    "running": "Running",
+                    "response": "Success",
+                    "response-time": 0.170094,
                     "redirects": null
                 }
             ]
@@ -43,8 +59,8 @@
             ],
             "status": "200",
             "running": "Running",
-            "last-check-timestamp": "2021-09-05 18:10:49.249957",
-            "response": "Success",
+            "last-check-timestamp": "2021-09-07 14:51:03.851707",
+            "response": "Success/Redirected",
             "routine": "24",
             "reports": [
                 {
@@ -54,6 +70,26 @@
                     "response": "Success",
                     "response-time": 0.055791,
                     "redirects": null
+                },
+                {
+                    "timestamp": "2021-09-07 14:48:54.266806",
+                    "status": "200",
+                    "running": "Running",
+                    "response": "Success/Redirected",
+                    "response-time": 0.072112,
+                    "redirects": [
+                        "https://wdb.tanmoysg.com/"
+                    ]
+                },
+                {
+                    "timestamp": "2021-09-07 14:51:03.851707",
+                    "status": "200",
+                    "running": "Running",
+                    "response": "Success/Redirected",
+                    "response-time": 0.072025,
+                    "redirects": [
+                        "https://wdb.tanmoysg.com/"
+                    ]
                 }
             ]
         },
@@ -68,7 +104,7 @@
             ],
             "status": "200",
             "running": "Running",
-            "last-check-timestamp": "2021-09-06 18:08:04.649527",
+            "last-check-timestamp": "2021-09-07 14:51:04.749511",
             "response": "Success/Redirected",
             "routine": "24",
             "reports": [
@@ -78,6 +114,28 @@
                     "running": "Running",
                     "response": "Success/Redirected",
                     "response-time": 0.251988,
+                    "redirects": [
+                        "https://shorturl.at/jqtC3",
+                        "https://www.shorturl.at/jqtC3"
+                    ]
+                },
+                {
+                    "timestamp": "2021-09-07 14:48:56.026695",
+                    "status": "200",
+                    "running": "Running",
+                    "response": "Success/Redirected",
+                    "response-time": 0.269099,
+                    "redirects": [
+                        "https://shorturl.at/jqtC3",
+                        "https://www.shorturl.at/jqtC3"
+                    ]
+                },
+                {
+                    "timestamp": "2021-09-07 14:51:04.749511",
+                    "status": "200",
+                    "running": "Running",
+                    "response": "Success/Redirected",
+                    "response-time": 0.275325,
                     "redirects": [
                         "https://shorturl.at/jqtC3",
                         "https://www.shorturl.at/jqtC3"
@@ -95,7 +153,7 @@
             ],
             "status": "404",
             "running": "Downtime",
-            "last-check-timestamp": "2021-09-06 19:52:35.023112",
+            "last-check-timestamp": "2021-09-07 14:51:06.622127",
             "response": "Bad Request",
             "routine": "6",
             "reports": [
@@ -105,6 +163,22 @@
                     "running": "Downtime",
                     "response": "Bad Request",
                     "response-time": 0.307292,
+                    "redirects": null
+                },
+                {
+                    "timestamp": "2021-09-07 14:49:02.900620",
+                    "status": "404",
+                    "running": "Downtime",
+                    "response": "Bad Request",
+                    "response-time": 0.231889,
+                    "redirects": null
+                },
+                {
+                    "timestamp": "2021-09-07 14:51:06.622127",
+                    "status": "404",
+                    "running": "Downtime",
+                    "response": "Bad Request",
+                    "response-time": 0.296925,
                     "redirects": null
                 }
             ]
