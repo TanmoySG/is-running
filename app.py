@@ -117,7 +117,7 @@ def check_endpoint(endpoint, recipients=None):
     return response
 
 
-def generate_report(response):
+def format_report(response):
     return {
         "timestamp": str(datetime.now()),
         "status": response['status'],
@@ -156,7 +156,7 @@ def add_endpoint(mail):
                 }
                 check_result = check_endpoint(
                     endpoint=new_endpoint, recipients=new_ep_config['recipients'])
-                report = generate_report(check_result)
+                report = format_report(check_result)
                 endpoint_config["status"] = report["status"]
                 endpoint_config["running"] = report["running"]
                 endpoint_config["last-check-timestamp"] = report["timestamp"]
@@ -182,8 +182,6 @@ def add_endpoint(mail):
         else:
             return "Doesnt Match"
 
-    # endpoint = request.args.get('endpoint')
-
 
 @app.route("/")
 def index():
@@ -206,7 +204,7 @@ def routine_check(mail):
                 if endpoints[endpoint]['routine'] in current_slots:
                     check_result = check_endpoint(
                         endpoint=endpoint, recipients=endpoints[endpoint]['mail-list'])
-                    report = generate_report(check_result)
+                    report = format_report(check_result)
                     endpoints[endpoint]["status"] = report["status"]
                     endpoints[endpoint]["running"] = report["running"]
                     endpoints[endpoint]["last-check-timestamp"] = report["timestamp"]
@@ -238,7 +236,7 @@ def bulk_check(mail):
             for endpoint in endpoints.keys():
                 check_result = check_endpoint(
                     endpoint=endpoint, recipients=endpoints[endpoint]['mail-list'])
-                report = generate_report(check_result)
+                report = format_report(check_result)
                 endpoints[endpoint]["status"] = report["status"]
                 endpoints[endpoint]["running"] = report["running"]
                 endpoints[endpoint]["last-check-timestamp"] = report["timestamp"]
@@ -254,6 +252,25 @@ def bulk_check(mail):
             return "credential_error"
 
 
+@app.route("/<mail>/generate/report/<type>", methods=["GET", "POST"])
+def generate_reports(mail, type="short"):
+    pass
+
+
+@app.route("/<mail>/get/status", methods  =["GET"])
+def get_status(mail):
+    status_config = request.get_json(force=True)
+    password = status_config['password']
+    complete_string = mail+"#"+password
+    with open('list.json') as f:
+        jfile = json.load(f)
+        user_cred = jfile['user']
+        endpoints = jfile['endpoints']
+        cred_hash = hashlib.sha1(complete_string.encode()).hexdigest()
+        if user_cred['token'] == cred_hash:
+            return endpoints
+        else:
+            return "credential_error"
 
 @app.route("/check-one", methods=["GET"])
 def get_endpoint():
