@@ -54,6 +54,44 @@ def alert(recipient, mail_template, content):
     return "Success"
 
 
+def mail_report(attachment, recipient):
+    pass
+
+
+def generate_cumulative_report(report_config_flag="all"):
+    with open('list.json') as f:
+        jfile = json.load(f)
+        # user_cred = jfile['user']
+        endpoints = jfile['endpoints']
+        if report_config_flag == "all":
+            pass
+        else:
+            template = open(
+                "./report_templates/individual_report_template.txt").read()
+            content = endpoints[report_config_flag]
+            template = template.replace("%endpoint%", content['endpoint'])
+            template = template.replace("%epname%", content['endpoint-name'])
+            template = template.replace("%epdesc%", content['description'])
+            template = template.replace("%status%", content['running'])
+            template = template.replace("%stscde%", content['status'])
+            template = template.replace("%stsrsp%", content['response'])
+            template = template.replace(
+                "%tmstmp%", content['last-check-timestamp'])
+            template = template.replace(
+                "%schedule%", "Every "+content['routine']+" Hrs")
+            rep_sum = ""
+            for indv_rep in content['reports']:
+                rep_sum = rep_sum+"\n|  "+str(indv_rep['timestamp'])+"  |  "+str(indv_rep['running'])+"  |  " + \
+                    str(indv_rep['status'])+"  |  "+str(indv_rep['response']) + \
+                    "  |  "+str(indv_rep['response-time'])+"  |"
+
+            template = template+rep_sum
+            rep_save = open("./reports/"+content['_id']+".txt", "w+")
+            rep_save.write(template)
+            rep_save.close
+            return "./reports/"+content['_id']+".txt"
+
+
 def check_endpoint(endpoint, recipients=None):
     request_val = requests.get(endpoint, allow_redirects=True)
     response = {"status": "", "duration": "", "response": "", "redirects": []}
@@ -183,6 +221,38 @@ def add_endpoint(mail):
             return "Doesnt Match"
 
 
+@app.route("/<mail>/check/endpoint", methods=["GET"])
+def standalone_ep_check(mail):
+    status_config = request.get_json(force=True)
+    password = status_config['password']
+    endpoint = status_config['endpoint']
+    complete_string = mail+"#"+password
+    with open('list.json') as f:
+        jfile = json.load(f)
+        user_cred = jfile['user']
+        endpoints = jfile['endpoints']
+        cred_hash = hashlib.sha1(complete_string.encode()).hexdigest()
+        if user_cred['token'] == cred_hash:
+            if endpoint in endpoints.keys():
+                check_result = check_endpoint(
+                    endpoint=endpoint, recipients=endpoints[endpoint]['mail-list'])
+                report = format_report(check_result)
+                endpoints[endpoint]["status"] = report["status"]
+                endpoints[endpoint]["running"] = report["running"]
+                endpoints[endpoint]["last-check-timestamp"] = report["timestamp"]
+                endpoints[endpoint]["response"] = report["response"]
+                if len(endpoints[endpoint]["reports"]) <= 10:
+                    endpoints[endpoint]["reports"].append(report)
+                else:
+                    endpoints[endpoint]["reports"].pop(0)
+                    endpoints[endpoint]["reports"].append(report)
+                write_json(jfile, file)
+            else:
+                return "endpoint_not_found"
+        else:
+            return "credential_error"
+
+
 @app.route("/")
 def index():
     return "<h1>It Fucking Works!</h1>"
@@ -254,10 +324,21 @@ def bulk_check(mail):
 
 @app.route("/<mail>/generate/report/<type>", methods=["GET", "POST"])
 def generate_reports(mail, type="short"):
-    pass
+    report_config = request.get_json(force=True)
+    password = report_config['password']
+    complete_string = mail+"#"+password
+    with open('list.json') as f:
+        jfile = json.load(f)
+        user_cred = jfile['user']
+        endpoints = jfile['endpoints']
+        cred_hash = hashlib.sha1(complete_string.encode()).hexdigest()
+        if user_cred['token'] == cred_hash:
+            return generate_cumulative_report(report_config_flag=report_config['endpoint'])
+        else:
+            return "credential_error"
 
 
-@app.route("/<mail>/get/status", methods  =["GET"])
+@app.route("/<mail>/get/status", methods=["GET"])
 def get_status(mail):
     status_config = request.get_json(force=True)
     password = status_config['password']
@@ -272,7 +353,8 @@ def get_status(mail):
         else:
             return "credential_error"
 
-@app.route("/check-one", methods=["GET"])
+
+@app.route("/random-one", methods=["GET"])
 def get_endpoint():
     endpoint = request.args.get('endpoint')
     return str(check_endpoint(endpoint))

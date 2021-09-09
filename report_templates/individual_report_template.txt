@@ -1,0 +1,16 @@
+Cumulative Report - isRunning
+=========================================================================
+Endpoint    : %endpoint%
+EP Name     : %epname%
+Description : %epdesc%
+Schedule    : %schedule%
+=========================================================================
+Latest Status | %status% 
+~ Status      : %stscde%
+~ Response    : %stsrsp%
+~ Timestamp   : %tmstmp%
+========================================================================
+Previous Check Report (max 10)
+========================================================================
+|  Timestamp  |  State  |  Status Code  |  Response  |  Response Time  |
+------------------------------------------------------------------------
