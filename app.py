@@ -1,17 +1,13 @@
 import json
-from datetime import datetime
+from datetime import datetime, date
 import shortuuid
-import hashlib
-from flask import Flask, request, jsonify, send_from_directory
-from os import path, write
+import hashlib, smtplib, ssl, os, requests
+from flask import Flask, request
 from flask_cors import CORS
-import requests
-import smtplib
-import ssl
-import time
-import hashlib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
+from email.mime.application import MIMEApplication
+
 
 app = Flask(__name__)
 
@@ -54,8 +50,34 @@ def alert(recipient, mail_template, content):
     return "Success"
 
 
-def mail_report(attachment, recipient):
-    pass
+def mail_report(attachment, recipient, content):
+    mail_template = "./mail_templates/report_mail.txt"
+    credentials = Get_Credentials()
+    message = MIMEMultipart("alternative")
+    message["Subject"] = content["subject"]
+    message["From"] = credentials.sender
+    message["To"] = recipient
+    template = open(mail_template).read().replace(
+        "%reptype%", content["report_type"])
+    template = template.replace(
+        "%epurl%", content["ep"])
+    html = MIMEText(template, "html")
+    message.attach(html)
+    # Attachement
+    try:
+        with open("./reports/"+attachment, "rb") as att:
+            p = MIMEApplication(att.read(), _subtype="txt")
+            p.add_header('Content-Disposition',
+                         "attachment", filename=attachment)
+            message.attach(p)
+    except Exception as e:
+        print(str(e))
+
+    context = ssl.create_default_context()
+    with smtplib.SMTP_SSL(credentials.serverAddress, credentials.port, context=context) as server:
+        server.login(credentials.sender, credentials.password)
+        server.sendmail(credentials.sender, recipient, message.as_string())
+    return "report_sent"
 
 
 def generate_cumulative_report(report_config_flag="all"):
@@ -64,7 +86,33 @@ def generate_cumulative_report(report_config_flag="all"):
         # user_cred = jfile['user']
         endpoints = jfile['endpoints']
         if report_config_flag == "all":
-            pass
+            template = open(
+                "./report_templates/overall_report_template.txt").read()
+            for endpoint in endpoints:
+                rep_sum = "\n|  Endpoint : %endpoint% [ %epname% - %schedule% ]\n======================================================================================"
+                content = endpoints[endpoint]
+                rep_sum = rep_sum.replace("%endpoint%", content['endpoint'])
+                rep_sum = rep_sum.replace(
+                    "%epname%", content['endpoint-name'])
+                rep_sum = rep_sum.replace(
+                    "%schedule%", content['routine']+" Hrs")
+                for indv_rep in content['reports']:
+                    rep_sum = rep_sum+"\n|  "+str(indv_rep['timestamp'])+"  |  "+str(indv_rep['running'])+"  |  " + \
+                        str(indv_rep['status'])+"  |  "+str(indv_rep['response']) + \
+                        "  |  "+str(indv_rep['response-time']) + \
+                        "  |  "
+                    if indv_rep['redirects'] != None:
+                        rep_sum = rep_sum + " -> ".join(indv_rep['redirects'])
+                    else:
+                        rep_sum = rep_sum + "No Redirects"
+                template = template+rep_sum
+                template = template + \
+                    "\n======================================================================================"
+            rep_save = open("./reports/"+str(date.today()) +
+                            "-cumulative-report.txt", "w+")
+            rep_save.write(template)
+            rep_save.close
+            return str(date.today())+"-cumulative-report.txt"
         else:
             template = open(
                 "./report_templates/individual_report_template.txt").read()
@@ -89,7 +137,7 @@ def generate_cumulative_report(report_config_flag="all"):
             rep_save = open("./reports/"+content['_id']+".txt", "w+")
             rep_save.write(template)
             rep_save.close
-            return "./reports/"+content['_id']+".txt"
+            return content['_id']+".txt"
 
 
 def check_endpoint(endpoint, recipients=None):
@@ -166,6 +214,18 @@ def format_report(response):
     }
 
 
+# Endpoints #########
+
+# Add Endpoint to In-system EP Library for check - /<mail>/add/endpoint
+# <mail> - Admin Email
+# Payload : {
+#  "endpoint":<ep-to-add> ,
+#  "password": <admin-password>,
+#  "name": <nickname for ep>,
+#  "description": <description-of-ep>,
+#  "recipients": [<recipient1-mail>, <recipient2-mail>],
+#  "routine" : <routine-check-schedule-in-hrs : 6/12/24>
+# }
 @app.route("/<mail>/add/endpoint", methods=["GET", "POST"])
 def add_endpoint(mail):
     new_ep_config = request.get_json(force=True)
@@ -220,6 +280,13 @@ def add_endpoint(mail):
         else:
             return "Doesnt Match"
 
+# Check In-system Endpoint on Demand - /<mail>/check/endpoint
+# <mail> - Admin Email
+# Payload : {
+#              password: <admin-password>,
+#              endpoint : <URL>
+#           }
+
 
 @app.route("/<mail>/check/endpoint", methods=["GET"])
 def standalone_ep_check(mail):
@@ -253,10 +320,19 @@ def standalone_ep_check(mail):
             return "credential_error"
 
 
+# Initial EP - /
+
 @app.route("/")
 def index():
     return "<h1>It Fucking Works!</h1>"
 
+
+# Routine Check Endpoints - /<mail>/routine-check/
+# <mail> - Admin Email
+# Payload : {
+#              password: <admin-password>,
+#              current_slots : [ 6, 12 , 24]
+#           }
 
 @app.route("/<mail>/routine-check/", methods=["GET", "POST"])
 def routine_check(mail):
@@ -292,10 +368,16 @@ def routine_check(mail):
             return "check_format"
 
 
+# Check Bulk Endpoints - /<mail>/check-all/
+# <mail> - Admin Email
+# Payload : {
+#              password: <admin-password>
+#           }
+
 @app.route("/<mail>/check-all/", methods=["GET", "POST"])
 def bulk_check(mail):
-    routine_check_config = request.get_json(force=True)
-    password = routine_check_config['password']
+    bulk_check_config = request.get_json(force=True)
+    password = bulk_check_config['password']
     complete_string = mail+"#"+password
     with open('list.json') as f:
         jfile = json.load(f)
@@ -322,8 +404,16 @@ def bulk_check(mail):
             return "credential_error"
 
 
+# Generate Report - /<mail>/generate/report/<type>
+# <mail> - Admin Email
+# <type> - cumulative / on-request / each-owner
+# Payload : {
+#              password: <admin-password>
+#              endpoint: <url>
+#           }
+
 @app.route("/<mail>/generate/report/<type>", methods=["GET", "POST"])
-def generate_reports(mail, type="short"):
+def generate_reports(mail, type="cumulative"):
     report_config = request.get_json(force=True)
     password = report_config['password']
     complete_string = mail+"#"+password
@@ -333,9 +423,76 @@ def generate_reports(mail, type="short"):
         endpoints = jfile['endpoints']
         cred_hash = hashlib.sha1(complete_string.encode()).hexdigest()
         if user_cred['token'] == cred_hash:
-            return generate_cumulative_report(report_config_flag=report_config['endpoint'])
+            if type == "cumulative":
+                report = generate_cumulative_report(report_config_flag="all")
+                content = {
+                    "subject": "isRunning | Report",
+                    "report_type": type,
+                    "ep": "All Endpoints"
+                }
+                ret_val = mail_report(
+                    attachment=report, recipient=user_cred['email'], content=content)
+                if os.path.exists("./reports/"+report):
+                    os.remove("./reports/"+report)
+                else:
+                    pass
+                return ret_val
+            elif type == "on-request":
+                report = generate_cumulative_report(
+                    report_config_flag=report_config['endpoint'])
+                content = {
+                    "subject": "isRunning | Report",
+                    "report_type": "Summary",
+                    "ep": report_config['endpoint']
+                }
+                ret_value = ""
+                for mail_id in endpoints[report_config['endpoint']]['mail-list']:
+                    ret_value = mail_report(
+                        attachment=report, recipient=mail_id, content=content)
+                if os.path.exists("./reports/"+report):
+                    os.remove("./reports/"+report)
+                else:
+                    pass
+                return ret_value
+            elif type == "each-owner":
+                ret_value = ""
+                for endpoint in endpoints.keys():
+                    report = generate_cumulative_report(
+                        report_config_flag=endpoint)
+                    content = {
+                        "subject": "isRunning | Report",
+                        "report_type": "Summary",
+                        "ep": endpoint
+                    }
+                    for mail_id in endpoints[endpoint]['mail-list']:
+                        ret_value = mail_report(
+                            attachment=report, recipient=mail_id, content=content)
+                    if os.path.exists("./reports/"+report):
+                        os.remove("./reports/"+report)
+                    else:
+                        pass
+                report = generate_cumulative_report(report_config_flag="all")
+                content = {
+                    "subject": "isRunning | Report",
+                    "report_type": type,
+                    "ep": "All Endpoints"
+                }
+                ret_value = mail_report(
+                    attachment=report, recipient=user_cred['email'], content=content)
+                if os.path.exists("./reports/"+report):
+                    os.remove("./reports/"+report)
+                else:
+                    pass
+                return ret_value
         else:
             return "credential_error"
+
+
+# API Endpoint to Get Current Status of EPs - for FrontEnd Use Only
+# <mail> - Admin Email
+# Payload : {
+#              password: <admin-password>
+#           }
 
 
 @app.route("/<mail>/get/status", methods=["GET"])
@@ -353,8 +510,11 @@ def get_status(mail):
         else:
             return "credential_error"
 
+# External Check - /check-uptime?endpoint=<url>
+# No Payload
 
-@app.route("/random-one", methods=["GET"])
+
+@app.route("/check-uptime", methods=["GET"])
 def get_endpoint():
     endpoint = request.args.get('endpoint')
     return str(check_endpoint(endpoint))

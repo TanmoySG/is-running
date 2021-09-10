@@ -1,8 +1,8 @@
 {
     "user": {
-        "email": "mail@tanmoysg.com",
+        "email": "tanmoysps@gmail.com",
         "name": "Tanmoy Sen Gupta",
-        "token": "8d77acb8913dafe8fcca6a015a4e6212a8de28ba",
+        "token": "337caa60237ff474a956b6718421a0f75f88ee0b",
         "halg": "SHA1"
     },
     "endpoints": {
@@ -54,8 +54,7 @@
             "_id": "BFxUdvwqKaWbZLim5ZtqLN",
             "mail-list": [
                 "mail@tanmoysg.com",
-                "tanmoysps@gmail.com",
-                "wdb@tanmoysg.com"
+                "tanmoysps@gmail.com"
             ],
             "status": "200",
             "running": "Running",
