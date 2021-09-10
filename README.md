@@ -1,7 +1,7 @@
 # is-running [NonGen]
 isRunning is an Automatic Uptime Detector, that checks endpoints and API-based Services and alerts a mailing list whenever the service is down. Helps in avoiding long duration service blockade.
 
-The NonGen or Non Generic version of isRunning is aimed at personal usage as it doesn't have account creation privilages or multi-account support. The Generic Version will have Multi-account Support and support for Account Creation and other features that enable users to periodically check for Service Downtime.
+The *NonGen or Non Generic* version of isRunning is aimed at personal usage as it doesn't have account creation privileges or multi-account support. The *Generic Version* will have Multi-account Support and support for Account Creation and other features that enable users to periodically check for Service Downtime.
 
 Even though the Generic and NonGen version are a bit different, the API Endpoints and Access Flags will be similar. This Documentation will work as base for future versions of isRunning too.
 
@@ -15,7 +15,7 @@ Even though the Generic and NonGen version are a bit different, the API Endpoint
 - [x] Bulk Endpoint checks
 - [ ] Routine Checks -  every 6 / 12 / 24 Hours (In Progress)
 - [ ] Dashboard for isRunning
-- [ ] NonGen Version for Multi-user support
+- [ ] Generic Version for Multi-user support
 
 Check the Progress [here.](https://github.com/TanmoySG/is-running/projects/1)
 
@@ -131,7 +131,7 @@ Endpoint : /check-uptime?endpoint=<endpoint>
 
 # Hosting
 
-The Hosted NonGen version of isRunning, when in Production Stage, will be implemented soon. 
+A Hosted Generic version of isRunning, when in Production Stage, will be implemented soon. 
 
 Meanwhile, you can clone this project onto your server and fiddle with its functionalities.
 
