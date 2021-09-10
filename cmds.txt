@@ -1,13 +1,3 @@
 -- run on-change-detect-reload 
 :::: Flask Server FLASK_APP=app.py FLASK_ENV=development flask run 
 :::: FLASK_APP=app.py FLASK_ENV=development flask run
-
-/*
-
-git filter-branch --force --index-filter \
-  'git rm -r --cached --ignore-unmatch server-config.json' \
-  --prune-empty --tag-name-filter cat -- --all
-
-  */
-
-  git push -f origin main
