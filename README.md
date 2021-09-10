@@ -7,7 +7,7 @@ Even though the Generic and NonGen version are a bit different, the API Endpoint
 
 ## Architecture of isRunning
 
-isRunning is a Python-Flask API Based Uptime Detector. The following is the architecture of isRunning.
+isRunning is a Python-Flask API Based Uptime Detector. The following diagram shows the architecture of isRunning.
 
 ![isRunning_Diagram](/documentation/isRunning-Architecture.jpg)
 
