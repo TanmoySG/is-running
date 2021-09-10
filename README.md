@@ -5,6 +5,20 @@ The NonGen or Non Generic version of isRunning is aimed at personal usage as it 
 
 Even though the Generic and NonGen version are a bit different, the API Endpoints and Access Flags will be similar. This Documentation will work as base for future versions of isRunning too.
 
+
+# Features 
+
+- [x] On-demand Endpoint Check
+- [x] EP Library to store Endpoints
+- [x] Critical Alerts Mailing list 
+- [x] Report Generation
+- [x] Bulk Endpoint checks
+- [ ] Routine Checks -  every 6 / 12 / 24 Hours (In Progress)
+- [ ] Dashboard for isRunning
+- [ ] NonGen Version for Multi-user support
+
+Check the Progress [here.](https://github.com/TanmoySG/is-running/projects/1)
+
 # Documentation
 
 The **EP Library** houses all the API-based Service Endpoints that are checked at regular Intervals for Uptime Detection.
@@ -115,8 +129,5 @@ Endpoint : /check-uptime?endpoint=<endpoint>
 ```
 *endpoint* - Endpoint to be checked.
 
-## Features 
 
-- [x] On-demand Endpoint Check
-- [x] EP Library to store Endpoints
-- [x] 
+A Project by [TanmoySG](https://github.com/TanmoySG)
