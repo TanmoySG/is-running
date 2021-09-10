@@ -5,6 +5,12 @@ The *NonGen or Non Generic* version of isRunning is aimed at personal usage as i
 
 Even though the Generic and NonGen version are a bit different, the API Endpoints and Access Flags will be similar. This Documentation will work as base for future versions of isRunning too.
 
+## Architecture of isRunning
+
+isRunning is a Python-Flask API Based Uptime Detector. The following is the architecture of isRunning.
+
+![isRunning_Diagram](/documentation/isRunning-Architecture.jpg)
+
 
 # Features 
 
@@ -113,7 +119,7 @@ Endpoint : /<mail>/generate/report/<type>
 ```
 {
     "password": <admin-password>,
-    "endpoint": <url> // only for *on-request*
+    "endpoint": <url> // only for on-request
 }
 ```
 
@@ -127,7 +133,7 @@ Endpoints can be checked by external consumers to check their Endpoints without 
 ```
 Endpoint : /check-uptime?endpoint=<endpoint>
 ```
-*endpoint* - Endpoint to be checked.
+- *endpoint* - Endpoint to be checked.
 
 # Hosting
 
