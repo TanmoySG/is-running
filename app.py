@@ -333,6 +333,7 @@ def index():
 #              password: <admin-password>,
 #              current_slots : [ 6, 12 , 24]
 #           }
+# For internal Jobs (CRON Calls) only
 
 @app.route("/<mail>/routine-check/", methods=["GET", "POST"])
 def routine_check(mail):
