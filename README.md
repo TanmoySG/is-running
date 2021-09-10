@@ -129,5 +129,10 @@ Endpoint : /check-uptime?endpoint=<endpoint>
 ```
 *endpoint* - Endpoint to be checked.
 
+# Hosting
 
-A Project by [TanmoySG](https://github.com/TanmoySG)
+The Hosted NonGen version of isRunning, when in Production Stage, will be implemented soon. 
+
+Meanwhile, you can clone this project onto your server and fiddle with its functionalities.
+
+*A Project by [TanmoySG](https://github.com/TanmoySG)*
