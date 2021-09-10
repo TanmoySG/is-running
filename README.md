@@ -114,3 +114,9 @@ Endpoints can be checked by external consumers to check their Endpoints without 
 Endpoint : /check-uptime?endpoint=<endpoint>
 ```
 *endpoint* - Endpoint to be checked.
+
+## Features 
+
+- [x] On-demand Endpoint Check
+- [x] EP Library to store Endpoints
+- [x] 
