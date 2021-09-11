@@ -280,6 +280,37 @@ def add_endpoint(mail):
         else:
             return "Doesnt Match"
 
+
+
+# Delete In-system Endpoint - /<mail>/delete/endpoint
+# <mail> - Admin Email
+# Payload : {
+#              password: <admin-password>,
+#              endpoint : <URL>
+#           }
+
+@app.route("/<mail>/delete/endpoint", methods=["GET", "POST"])
+def delete_endpoint(mail):
+    new_ep_config = request.get_json(force=True)
+    endpoint = new_ep_config['endpoint']
+    password = new_ep_config['password']
+    complete_string = mail+"#"+password
+    with open('list.json') as f:
+        jfile = json.load(f)
+        user_cred = jfile['user']
+        endpoints = jfile['endpoints']
+        cred_hash = hashlib.sha1(complete_string.encode()).hexdigest()
+        if user_cred['token'] == cred_hash:
+            if endpoint in endpoints.keys():
+                endpoints.pop(endpoint)
+                write_json(jfile, file)
+                return "ep_deleted"
+            else:
+                return "ep_does_not_exist"
+        else:
+            return "credential_mismatch"
+
+
 # Check In-system Endpoint on Demand - /<mail>/check/endpoint
 # <mail> - Admin Email
 # Payload : {
@@ -513,7 +544,6 @@ def get_status(mail):
 
 # External Check - /check-uptime?endpoint=<url>
 # No Payload
-
 
 @app.route("/check-uptime", methods=["GET"])
 def get_endpoint():

@@ -92,56 +92,6 @@
                 }
             ]
         },
-        "https://shorturl.at/jqtC3": {
-            "endpoint": "https://shorturl.at/jqtC3",
-            "endpoint-name": "WDB",
-            "description": "Just Test Shit",
-            "_id": "SALTfT4CkXiD6RMiiAosbP",
-            "mail-list": [
-                "mail@tanmoysg.com",
-                "tanmoysps@gmail.com"
-            ],
-            "status": "200",
-            "running": "Running",
-            "last-check-timestamp": "2021-09-07 14:51:04.749511",
-            "response": "Success/Redirected",
-            "routine": "24",
-            "reports": [
-                {
-                    "timestamp": "2021-09-06 18:08:04.649527",
-                    "status": "200",
-                    "running": "Running",
-                    "response": "Success/Redirected",
-                    "response-time": 0.251988,
-                    "redirects": [
-                        "https://shorturl.at/jqtC3",
-                        "https://www.shorturl.at/jqtC3"
-                    ]
-                },
-                {
-                    "timestamp": "2021-09-07 14:48:56.026695",
-                    "status": "200",
-                    "running": "Running",
-                    "response": "Success/Redirected",
-                    "response-time": 0.269099,
-                    "redirects": [
-                        "https://shorturl.at/jqtC3",
-                        "https://www.shorturl.at/jqtC3"
-                    ]
-                },
-                {
-                    "timestamp": "2021-09-07 14:51:04.749511",
-                    "status": "200",
-                    "running": "Running",
-                    "response": "Success/Redirected",
-                    "response-time": 0.275325,
-                    "redirects": [
-                        "https://shorturl.at/jqtC3",
-                        "https://www.shorturl.at/jqtC3"
-                    ]
-                }
-            ]
-        },
         "https://tanmoysg.com/tow/": {
             "endpoint": "https://tanmoysg.com/tow/",
             "endpoint-name": "TSG on Web",
