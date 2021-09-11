@@ -358,26 +358,20 @@ def index():
     return "<h1>It Fucking Works!</h1>"
 
 
-# Routine Check Endpoints - /<mail>/routine-check/
+# Routine Check Endpoints - /<mail>/routine-check/<token>/<slots>
 # <mail> - Admin Email
-# Payload : {
-#              password: <admin-password>,
-#              current_slots : [ 6, 12 , 24]
-#           }
+# <token> - access token
+# <slots> - 6-12-24 / 6 / 6-12
 # For internal Jobs (CRON Calls) only
 
-@app.route("/<mail>/routine-check/", methods=["GET", "POST"])
-def routine_check(mail):
-    routine_check_config = request.get_json(force=True)
-    current_slots = routine_check_config['current_slots']
-    password = routine_check_config['password']
-    complete_string = mail+"#"+password
+@app.route("/<mail>/routine-check/<token>/<slots>", methods=["GET", "POST"])
+def routine_check(mail, token, slots):
+    current_slots = slots.split("-")
     with open('list.json') as f:
         jfile = json.load(f)
         user_cred = jfile['user']
         endpoints = jfile['endpoints']
-        cred_hash = hashlib.sha1(complete_string.encode()).hexdigest()
-        if user_cred['token'] == cred_hash:
+        if user_cred['token'] == token and user_cred['email'] == mail:
             for endpoint in endpoints.keys():
                 if endpoints[endpoint]['routine'] in current_slots:
                     check_result = check_endpoint(

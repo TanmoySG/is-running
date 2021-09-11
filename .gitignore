@@ -41,6 +41,8 @@ pip-delete-this-directory.txt
 server-config.json
 list.json
 curl-cmds.txt
+test.py
+cmds.txt
 
 # Unit test / coverage reports
 htmlcov/
