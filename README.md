@@ -81,6 +81,26 @@ Endpoint : /<mail>/check/endpoint
 
 When Downtime (HTTP Codes: 400 to 599) is detected for an EP, the members of the Mailing List of that EP are alerted through mail.
 
+## Delete EP on-demand from the EP Library
+
+The on-demand EP Delete Function can be accessed by calling the following EP.
+```
+Endpoint : /<mail>/delete/endpoint
+```
+*mail* - Registered Email ID (username)
+
+**Payload:**
+```
+{
+    "password": <admin-password>,
+    "endpoint": <ep-url>
+}
+```
+- *endpoint* - URL of the Service Endpoint to be checked.
+
+- *password* - The Admin Password for the provided username/email
+
+
 ## On-demand Bulk Uptime Check for all EPs in the EP Library
 
 All EPs in the EP Library can be checked for Uptime at once using this Endpoint.
