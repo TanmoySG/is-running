@@ -1,7 +1,11 @@
 import json
 from datetime import datetime, date
 import shortuuid
-import hashlib, smtplib, ssl, os, requests
+import hashlib
+import smtplib
+import ssl
+import os
+import requests
 from flask import Flask, request
 from flask_cors import CORS
 from email.mime.text import MIMEText
@@ -281,7 +285,6 @@ def add_endpoint(mail):
             return "Doesnt Match"
 
 
-
 # Delete In-system Endpoint - /<mail>/delete/endpoint
 # <mail> - Admin Email
 # Payload : {
@@ -356,6 +359,20 @@ def standalone_ep_check(mail):
 @app.route("/")
 def index():
     return "<h1>It Fucking Works!</h1>"
+
+
+@app.route("/<mail>/login")
+def login(mail):
+    password = request.get_json(force=True)['password']
+    complete_string = mail+"#"+password
+    with open('list.json') as f:
+        jfile = json.load(f)
+        user_cred = jfile['user']
+        cred_hash = hashlib.sha1(complete_string.encode()).hexdigest()
+        if user_cred['token'] == cred_hash and mail == user_cred['email'] :
+            return user_cred
+        else:
+            return "credential_error"
 
 
 # Routine Check Endpoints - /<mail>/routine-check/<token>/<slots>
@@ -538,6 +555,7 @@ def get_status(mail):
 
 # External Check - /check-uptime?endpoint=<url>
 # No Payload
+
 
 @app.route("/check-uptime", methods=["GET"])
 def get_endpoint():
