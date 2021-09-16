@@ -401,7 +401,7 @@ def routine_check(mail, token, slots):
                     if len(endpoints[endpoint]["reports"]) <= 10:
                         endpoints[endpoint]["reports"].append(report)
                     else:
-                        endpoints[endpoint]["reports"].pop(index=0)
+                        endpoints[endpoint]["reports"].pop(0)
                         endpoints[endpoint]["reports"].append(report)
                 else:
                     pass
