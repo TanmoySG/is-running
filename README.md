@@ -19,7 +19,7 @@ isRunning is a Python-Flask API Based Uptime Detector. The following diagram sho
 - [x] Critical Alerts Mailing list 
 - [x] Report Generation
 - [x] Bulk Endpoint checks
-- [ ] Routine Checks -  every 6 / 12 / 24 Hours (In Progress)
+- [x] Routine Checks -  every 6 / 12 / 24 Hours
 - [ ] Dashboard for isRunning
 - [ ] Generic Version for Multi-user support
 
