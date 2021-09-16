@@ -1,11 +1,7 @@
 import json
 from datetime import datetime, date
 import shortuuid
-import hashlib
-import smtplib
-import ssl
-import os
-import requests
+import hashlib, smtplib, ssl, os, requests
 from flask import Flask, request
 from flask_cors import CORS
 from email.mime.text import MIMEText
@@ -285,6 +281,7 @@ def add_endpoint(mail):
             return "Doesnt Match"
 
 
+
 # Delete In-system Endpoint - /<mail>/delete/endpoint
 # <mail> - Admin Email
 # Payload : {
@@ -359,9 +356,9 @@ def standalone_ep_check(mail):
 @app.route("/")
 def index():
     return "<h1>It Fucking Works!</h1>"
-
-
-@app.route("/<mail>/login")
+    
+    
+@app.route("/<mail>/login", methods=["GET", "POST"])
 def login(mail):
     password = request.get_json(force=True)['password']
     complete_string = mail+"#"+password
@@ -538,7 +535,7 @@ def generate_reports(mail, type="cumulative"):
 #           }
 
 
-@app.route("/<mail>/get/status", methods=["GET"])
+@app.route("/<mail>/get/status", methods=["GET", "POST"])
 def get_status(mail):
     status_config = request.get_json(force=True)
     password = status_config['password']
@@ -555,7 +552,6 @@ def get_status(mail):
 
 # External Check - /check-uptime?endpoint=<url>
 # No Payload
-
 
 @app.route("/check-uptime", methods=["GET"])
 def get_endpoint():
