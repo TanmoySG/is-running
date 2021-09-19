@@ -274,11 +274,11 @@ def add_endpoint(mail):
                     }
                     alert(recipient=mail_address,
                           mail_template="./mail_templates/alert_onboarding_mail.txt", content=content)
-                return "<h1>New Endpoint Added</h1>"
+                return "new_ep_added"
             else:
-                return "<h1>Endpoint Exists</h1>"
+                return "ep_exists"
         else:
-            return "Doesnt Match"
+            return "credential_mismatch"
 
 
 
