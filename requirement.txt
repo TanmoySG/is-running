@@ -1,5 +1,5 @@
 certifi==2021.10.8
-charset-normalizer==2.0.6
+charset-normalizer==2.0.10
 click==8.0.3
 Flask==2.0.2
 Flask-Cors==3.0.10
